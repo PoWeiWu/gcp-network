@@ -1,0 +1,6 @@
+project_id    = "tf-lab-life"
+region        = "asia-east1"
+vpc_name      = "gcp-lab-vpc"
+subnet_name   = "gke-subnet"
+subnet_region = "asia-east1"
+subnet_cidr   = "10.10.0.0/24"
