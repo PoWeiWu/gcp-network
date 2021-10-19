@@ -1,6 +1,6 @@
-locals {
-  credentials = var.credentials_file != "" ? file(var.credentials_file) : var.credentials
-}
+# locals {
+#   credentials = var.credentials_file != "" ? file(var.credentials_file) : var.credentials
+# }
 
 resource "google_compute_network" "vpc" {
   name                    = var.vpc_name
