@@ -101,7 +101,8 @@ jobs:
         tar xzf conftest_0.25.0_Linux_x86_64.tar.gz
         sudo mv conftest /usr/local/bin
         source ~/.bashrc
-    
+        conftest -v
+
     # Conftest policy check
     - name: Conftest Policy Check
       run: conftest test tfplan.json --fail-on-warn -p policy/ --all-namespaces || check_state=$?

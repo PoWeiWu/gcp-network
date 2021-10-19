@@ -21,18 +21,22 @@ echo "Policy Check"
 
 if [ "$check_state" = '2' ]
 then
-    echo "policy check fail"
-    rm -f $check_data
+    echo "POLICY CHECK FAIL"
+    rm -f tfplan.json
     exit 0
 elif [[ "$check_state" = '1' ]]
 then
-    echo "opa code error"
-    rm -f $check_data
+    echo "OPA CODE ERROR"
+    rm -f tfplan.json
     exit 0
+elif [[ "$check_state" = '' ]]
+then
+    echo "CONFTEST ERROR"
+    rm -f tfplan.json
 else
-    echo "pass"
+    echo "PASSSSSSSS"
     # terraform apply -auto-approve
-    rm -f $check_data
+    rm -f tfplan.json
 fi
 
 
