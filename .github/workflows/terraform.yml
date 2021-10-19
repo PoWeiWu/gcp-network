@@ -88,9 +88,12 @@ jobs:
           TF_VAR_credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
     
     # Generates tf plan json-formatted file for polciy check
-    - name: Terraform Plan
+    - name: Terraform Plan trans to json-formatted file
       run: terraform show -json tfplan.binary > tfplan.json
-      
+    
+    - name: Show tfplan.json file
+      run: ls -la
+
     # Install the lastest conftest for policy check
     - name: Setup Conftest
       uses: instrumenta/conftest-action@v0.4.0
