@@ -91,8 +91,8 @@ jobs:
     - name: Terraform Plan trans to json-formatted file
       run: terraform show -json tfplan.binary > tfplan.json
     
-    - name: Show tfplan.json file
-      run: ls -la
+    - name: Show tfplan.json content
+      run: cat tfplan.json
 
     # Install the lastest conftest for policy check
     - name: Setup Conftest
@@ -101,17 +101,22 @@ jobs:
         tar xzf conftest_0.25.0_Linux_x86_64.tar.gz
         sudo mv conftest /usr/local/bin
         source ~/.bashrc
-        
+    
+    # Conftest policy check
     - name: Conftest Policy Check
       run: conftest test tfplan.json --fail-on-warn -p policy/ --all-namespaces || check_state=$?
-      
-    - name: Check Policy if pass
+    
+    - name: Policy check result if pass
       run: |
-        chmod +x ./policy-check.sh
+        echo "******************************"
+        echo "*        $check_state        *"
+        echo "******************************"
         ./policy-check.sh
       
       # On push to main, build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -auto-approve
+    # - name: Terraform Apply
+    #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    #   run: terraform apply -auto-approve
+    #   env:
+    #       TF_VAR_credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
