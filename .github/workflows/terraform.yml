@@ -102,11 +102,14 @@ jobs:
         sudo mv conftest /usr/local/bin
         source ~/.bashrc
         conftest -v
+    
+    - name: Conftest
+      run: conftest test -h
 
     # Conftest policy check
-    - name: Conftest Policy Check
-      run: conftest test tfplan.json --fail-on-warn -p policy/ --all-namespaces -o table --no-color --trace || check_state=$?
-    
+    # - name: Conftest Policy Check
+    #   run: conftest test tfplan.json --fail-on-warn -p policy/ --all-namespaces -o table --no-color --trace || check_state=$?
+
     - name: Policy check result if pass
       run: |
         ./policy-check.sh
