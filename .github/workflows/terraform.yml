@@ -99,6 +99,7 @@ jobs:
       uses: instrumenta/conftest-action@v0.4.0
       with:
         files: tfplan.json
+        namespace: --all-namespaces
         
     - name: Conftest Policy Check
       run: conftest test $files --fail-on-warn -p policy/ --all-namespaces || check_state=$?
