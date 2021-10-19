@@ -82,7 +82,7 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan --out tfplan.binary
+      run: TF_VAR_credentails=${{ secrets.GOOGLE_CREDENTIALS}} terraform plan --out tfplan.binary
     
     # Generates tf plan json-formatted file for polciy check
     - name: Terraform Plan

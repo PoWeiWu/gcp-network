@@ -25,11 +25,12 @@ variable "subnet_cidr" {
 
 variable "credentials" {
   description = "Google Cloud Platform credentials"
+  type = string
   default     = ""
 }
 
-variable "credentials_file" {
-  description = "Location of Google Cloud Platform credentials file"
-  default     = ""
-}
+# variable "credentials_file" {
+#   description = "Location of Google Cloud Platform credentials file"
+#   default     = ""
+# }
 
