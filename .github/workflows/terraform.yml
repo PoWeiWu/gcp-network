@@ -102,6 +102,7 @@ jobs:
     - name: Conftest policy check
       id: conftest
       run: conftest test tfplan.json --fail-on-warn -p policy/ --all-namespaces -o table
+      continue-on-error: true
 
     # - name: Policy check result if pass
     #   run: ./policy-check.sh
