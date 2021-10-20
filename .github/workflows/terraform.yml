@@ -64,6 +64,7 @@ jobs:
         id: result
         run: |
           echo "::set-output name=policy_check_result::$(cat policyCheckResult)"
+          echo "$name"
 
       # - name: Policy check result if pass
       #   run: ./policy-check.sh
