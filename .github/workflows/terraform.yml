@@ -90,7 +90,7 @@ jobs:
     - name: Terraform Plan
       id: plan
       if: github.event_name == 'pull_request'
-      run: terraform plan -no-color
+      run: terraform plan -no-color -detailed-exitcode
       continue-on-error: true
       env:
           TF_VAR_credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
