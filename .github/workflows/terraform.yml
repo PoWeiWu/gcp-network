@@ -81,18 +81,14 @@ jobs:
     # - name: Terraform Format
     #   run: terraform fmt -check
 
-    # Generates an execution plan for Terraform
+    #  Execution and save plan to json file
     - name: Terraform Plan
-      run: terraform plan --out tfplan.binary
+      if: github.event_name == 'pull_request'
+      run: |
+        terraform plan --out tfplan.binary
+        terraform show -json tfplan.binary > tfplan.json
       env:
           TF_VAR_credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-    
-    # Generates tf plan json-formatted file for polciy check
-    - name: Terraform Plan trans to json-formatted file
-      run: terraform show -json tfplan.binary > tfplan.json
-
-    - name: Show tfplan.json content
-      run: cat tfplan.json
 
     # Install the lastest conftest for policy check
     - name: Setup Conftest
@@ -102,18 +98,31 @@ jobs:
         sudo mv conftest /usr/local/bin
         source ~/.bashrc
         conftest -v
+    
+    - name: Conftest policy check
+      id: conftest
+      run: conftest test tfplan.json --fail-on-warn -p policy/ --all-namespaces -o github
 
-    # Conftest policy check
-    # - name: Conftest Policy Check
-    #   run: conftest test tfplan.json --fail-on-warn -p policy/ --all-namespaces -o table --no-color || check_state=$?
+    # - name: Policy check result if pass
+    #   run: ./policy-check.sh
 
-    - name: Policy check result if pass
-      run: ./policy-check.sh
+    - name: Update Pull Request
+      uses: actions/github-script@0.9.0
+      if: github.event_name == 'pull_request' && always() && steps.conftest.outputs.result
+      with:
+        # github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          ### Conftest test result
+          ```
+          ${{ steps.conftest.outputs.result }}
+          ```
+
+          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
       
       # On push to main, build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
-    # - name: Terraform Apply
-    #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    #   run: terraform apply -auto-approve
-    #   env:
-    #       TF_VAR_credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: terraform apply -auto-approve
+      env:
+          TF_VAR_credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
