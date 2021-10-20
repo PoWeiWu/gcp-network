@@ -13,11 +13,11 @@
 # terraform show -json tfplan.binary > $check_data
 
 # delete binary file
-# rm -f tfplan.binary
+rm -f tfplan.binary
 
 echo "Policy Check"
 # opa eval -d policy/ -i $check_data --fail-defined "data.terraform.gcp.instance.deny" --format pretty || check_state=$?
-# conftest test tfplan.json --fail-on-warn -p policy/ --all-namespaces -o stdout --no-color || check_state=$? 
+conftest test tfplan.json --fail-on-warn -p policy/ --all-namespaces -o table --no-color || check_state=$? 
 
 if [ "$check_state" = '2' ]
 then

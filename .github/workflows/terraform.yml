@@ -104,15 +104,11 @@ jobs:
         conftest -v
 
     # Conftest policy check
-    - name: Conftest Policy Check
-      run: conftest test tfplan.json --fail-on-warn -p policy/ --all-namespaces -o table --no-color || check_state=$?
+    # - name: Conftest Policy Check
+    #   run: conftest test tfplan.json --fail-on-warn -p policy/ --all-namespaces -o table --no-color || check_state=$?
 
     - name: Policy check result if pass
-      run: |
-        ./policy-check.sh
-        echo "******************************"
-        echo "*        $check_state        *"
-        echo "******************************"        
+      run: ./policy-check.sh
       
       # On push to main, build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
