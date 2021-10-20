@@ -17,7 +17,7 @@ rm -f tfplan.binary
 
 echo "Policy Check"
 # opa eval -d policy/ -i $check_data --fail-defined "data.terraform.gcp.instance.deny" --format pretty || check_state=$?
-conftest test tfplan.json --fail-on-warn -p policy/ --all-namespaces -o table || check_state=$? 
+conftest test tfplan.json --fail-on-warn -p policy/ --all-namespaces || check_state=$? 
 
 if [ "$check_state" = '2' ]
 then
