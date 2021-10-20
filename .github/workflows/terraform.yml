@@ -92,6 +92,8 @@ jobs:
       if: github.event_name == 'pull_request'
       run: terraform plan -no-color
       continue-on-error: true
+      env:
+          TF_VAR_credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
 
     #  Execution and save plan to json file
     # - name: Terraform Plan
