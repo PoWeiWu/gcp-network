@@ -56,6 +56,10 @@ jobs:
         run: conftest test tfplan.json --fail-on-warn -p policy/ --all-namespaces -o table --no-color > policyCheckResult
         continue-on-error: true
       
+      - name: debug message
+        id: debug
+        run: cat policyCheckResult
+
       - name: Get Policy check result
         id: result
         run: |
