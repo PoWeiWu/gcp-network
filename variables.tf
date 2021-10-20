@@ -25,7 +25,7 @@ variable "subnet_cidr" {
 
 variable "credentials" {
   description = "Google Cloud Platform credentials"
-  type = string
+  type        = string
   default     = ""
 }
 
