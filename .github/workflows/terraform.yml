@@ -81,16 +81,20 @@ jobs:
     #   run: terraform fmt -check
 
 
-    # # Generates an execution plan for Terraform
-    # - name: Terraform Plan
-    #   run: terraform plan --out tfplan.binary
-    #   env:
-    #       TF_VAR_credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      run: terraform plan --out tfplan.binary
+      env:
+          TF_VAR_credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
     
-    # # Generates tf plan json-formatted file for polciy check
-    # - name: Terraform Plan trans to json-formatted file
-    #   run: terraform show -json tfplan.binary > tfplan.json
+    # Generates tf plan json-formatted file for polciy check
+    - name: Terraform Plan trans to json-formatted file
+      run: terraform show -json tfplan.binary > tfplan.json
     
+    # Generates tf plan json-formatted file for polciy check
+    - name: Check terraform plan json file content
+      run: terraform show -json tfplan.binary 
+
     - name: Show tfplan.json content
       run: cat tfplan.json
 
