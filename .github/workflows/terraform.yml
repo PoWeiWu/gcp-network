@@ -53,7 +53,7 @@ jobs:
     
       - name: Conftest policy check
         id: conftest
-        run: conftest test tfplan.json -p policy/ --all-namespaces -o table --no-fail --no-color
+        run: conftest test tfplan.json -p policy/ --all-namespaces -o github --no-fail --no-color
         continue-on-error: true
 
       # - name: Policy check result if pass
@@ -67,7 +67,7 @@ jobs:
           script: |
             const output = `
             #### Conftest test result
-            <details><summary>Show Plan</summary>
+            <details><summary>Policy Check result</summary>
 
             \`\`\`\n
             ${{ steps.conftest.outputs.result }}
