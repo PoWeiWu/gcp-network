@@ -2,7 +2,7 @@ package terraform.util
 
 resources(resource_type) = {rs[i] |
 	some path, value
-	walk(input, [path, value])
+	walk(input.planned_values, [path, value])
 	rs := tfplan_resources(path, value)
 	rs[i].type == resource_type
 }

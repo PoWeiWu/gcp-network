@@ -14,6 +14,8 @@ resource "google_compute_subnetwork" "gke_subnet" {
   region        = var.subnet_region
   network       = google_compute_network.vpc.name
 
+  private_ip_google_access = true
+  
   log_config {
     aggregation_interval = "INTERVAL_10_MIN"
     flow_sampling        = 0.5
