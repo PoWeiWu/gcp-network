@@ -55,16 +55,12 @@ jobs:
         id: conftest
         run: conftest test tfplan.json --fail-on-warn -p policy/ --all-namespaces -o table --no-color > policyCheckResult
         continue-on-error: true
-      
-      - name: debug message
-        id: debug
-        run: cat policyCheckResult
 
       - name: Get Policy check result
         id: result
         run: |
-          echo "::set-output name=policy_check_result::$(cat policyCheckResult)"
-          echo "$name"
+          echo "::set-env name=policy_check_result::$(cat policyCheckResult)"
+  
 
       # - name: Policy check result if pass
       #   run: ./policy-check.sh
@@ -79,7 +75,7 @@ jobs:
             #### Conftest test result
             <details><summary>Policy Check result</summary>
 
-            \`\`\`${{ steps.result.outputs.policy_check_result }}\`\`\`
+            \`\`\`${{ env.policy_check_result }}\`\`\`
 
             </details>
 
