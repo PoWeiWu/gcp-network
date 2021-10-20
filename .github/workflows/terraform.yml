@@ -42,9 +42,6 @@ jobs:
         env:
             TF_VAR_credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
 
-      - name: check plan value
-        run: cat tfplan.json
-
     # # Install the lastest conftest for policy check
       - name: Setup Conftest
         run: |
