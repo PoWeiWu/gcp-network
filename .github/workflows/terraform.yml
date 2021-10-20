@@ -74,9 +74,7 @@ jobs:
             #### Conftest test result
             <details><summary>Policy Check result</summary>
 
-            \`\`\`\n
-            ${{ steps.result.outputs.policy_check_result }}
-            \`\`\`
+            \`\`\`${{ steps.result.outputs.policy_check_result }}\`\`\`
 
             </details>
 
