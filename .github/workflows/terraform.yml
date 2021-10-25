@@ -53,40 +53,40 @@ jobs:
     
       - name: Conftest policy check
         id: conftest
-        run: conftest test tfplan.json --fail-on-warn -p policy/ --all-namespaces -o table --no-color
+        run: conftest test tfplan.json --fail-on-warn -p policy/ --all-namespaces -o table --no-color > policyCheckResult
         # continue-on-error: true
 
       # - name: Get Policy check result
       #   id: result
       #   run: |
-      #     echo "::set-env name=policy_check_result::$(cat policyCheckResult)"
+      #     echo "::set-output name=policy_check_result::$(cat policyCheckResult)"
   
 
       # - name: Policy check result if pass
       #   run: ./policy-check.sh
 
-      # - name: Output to PR
-      #   uses: actions/github-script@v5
-      #   if: github.event_name == 'pull_request'
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     script: |
-      #       const output = `
-      #       #### Conftest test result
-      #       <details><summary>Policy Check result</summary>
+      - name: Output to PR
+        uses: actions/github-script@v5
+        if: github.event_name == 'pull_request'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `
+            #### Conftest test result
+            <details><summary>Policy Check result</summary>
 
-      #       \`\`\`${{ env.policy_check_result }}\`\`\`
+            \`\`\`${{ env.policy_check_result }}\`\`\`
 
-      #       </details>
+            </details>
 
-      #       *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
 
-      #       github.rest.issues.createComment({
-      #           issue_number: context.issue.number,
-      #           owner: context.repo.owner,
-      #           repo: context.repo.repo,
-      #           body: output
-      #         })
+            github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: output
+              })
       
       # On push to main, build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
