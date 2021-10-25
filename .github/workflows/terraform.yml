@@ -59,7 +59,7 @@ jobs:
       # - name: Get Policy check result
       #   id: result
       #   run: |
-      #     echo "::set-env name=policy_check_result::$(cat policyCheckResult)"
+      #     echo "::set-output name=policy_check_result::$(cat policyCheckResult)"
   
 
       # - name: Policy check result if pass
